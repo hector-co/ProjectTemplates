@@ -1,0 +1,11 @@
+﻿keys:
+  - TplNamespace
+  - TplModule
+  - tplModule
+excludedFiles:
+  - tpl-def.yaml
+excludedFolders:
+  - .git
+  - bin
+  - obj
+  - .vs
