@@ -16,7 +16,7 @@ public class DatabaseManager
             DbAdapter = DbAdapter.Postgres,
             TablesToIgnore = new Table[]
             {
-                        "__EFMigrationsHistory"
+                "__EFMigrationsHistory"
             },
             SchemasToInclude = new[] { "tplModule" },
         }).Result;
