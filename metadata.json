@@ -1,8 +1,8 @@
 {
   "name": "TplNamespace",
   "settings": {
-    "apiPrefix": "tplModule",
-    "databaseSchema": "tplModule"
+    "apiPrefix": "tpl-api-prefix",
+    "databaseSchema": "tplDbSchema"
   },
   "model": {
   },

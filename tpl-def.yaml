@@ -1,7 +1,8 @@
 ﻿keys:
   - TplNamespace
   - TplModule
-  - tplModule
+  - tpl-api-prefix
+  - tplDbSchema
 excludedFiles:
   - tpl-def.yaml
 excludedFolders:
