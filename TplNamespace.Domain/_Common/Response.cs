@@ -1,4 +1,4 @@
-namespace TplNamespace.Domain.Abstractions;
+namespace TplNamespace.Domain.Common;
 
 public class Response
 {

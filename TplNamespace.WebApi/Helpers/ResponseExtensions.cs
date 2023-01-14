@@ -1,10 +1,10 @@
 using System.Net;
 using TplNamespace.WebApi.ExceptionHandling;
-using TplNamespace.Domain.Abstractions;
+using TplNamespace.Domain.Common;
 
-namespace TplNamespace.WebApi;
+namespace TplNamespace.WebApi.Helpers;
 
-public static class Extensions
+public static class ResponseExtensions
 {
     public static void Verify(this Response response)
     {

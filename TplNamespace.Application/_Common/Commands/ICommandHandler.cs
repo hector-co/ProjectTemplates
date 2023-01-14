@@ -1,7 +1,7 @@
 using MediatR;
-using TplNamespace.Domain.Abstractions;
+using TplNamespace.Domain.Common;
 
-namespace TplNamespace.Application.Abstractions.Commands;
+namespace TplNamespace.Application.Common.Commands;
 
 public interface ICommandHandler<in TCommand> : IRequestHandler<TCommand, Response>
     where TCommand : ICommand

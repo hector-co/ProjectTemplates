@@ -1,7 +1,7 @@
 using FluentValidation;
 using MediatR;
 
-namespace TplNamespace.Application.Behaviors;
+namespace TplNamespace.Application.Common.Behaviors;
 
 public class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     where TRequest : IRequest<TResponse>

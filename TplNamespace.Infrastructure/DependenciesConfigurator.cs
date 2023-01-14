@@ -8,7 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using QueryX;
 using Serilog;
-using TplNamespace.Application.Behaviors;
+using TplNamespace.Application.Common.Behaviors;
 using TplNamespace.Infrastructure.DataAccess.EF;
 
 namespace TplNamespace.Infrastructure

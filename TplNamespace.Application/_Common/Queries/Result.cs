@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace TplNamespace.Application.Abstractions.Queries;
+namespace TplNamespace.Application.Common.Queries;
 
 public class Result<TData>
 {
