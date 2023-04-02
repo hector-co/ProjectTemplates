@@ -1,4 +1,3 @@
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -16,17 +15,17 @@ public class InitData : IHostedService
     public async Task StartAsync(CancellationToken cancellationToken)
     {
         using var scope = _serviceProvider.CreateScope();
-        var context = scope.ServiceProvider.GetRequiredService<TplModuleContext>();
+        var context = scope.ServiceProvider.GetRequiredService<IDbContext>();
         var env = scope.ServiceProvider.GetRequiredService<IHostEnvironment>();
 
-        await context.Database.MigrateAsync(cancellationToken);
+        await context.MigrateAsync(cancellationToken);
 
         await AddData(context, env, cancellationToken);
     }
 
     public Task StopAsync(CancellationToken cancellationToken) => Task.CompletedTask;
 
-    private static async Task AddData(TplModuleContext context, IHostEnvironment environment, CancellationToken cancellationToken)
+    private static async Task AddData(IDbContext context, IHostEnvironment environment, CancellationToken cancellationToken)
     {
     }
 }

@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TplNamespace.Infrastructure.DataAccess.EF;
 
-public class TplModuleContext : DbContext, ITplModuleContext
+public class TplModuleContext : DbContext, IDbContext
 {
     public const string DbSchema = "tplDbSchema";
 
@@ -15,4 +15,3 @@ public class TplModuleContext : DbContext, ITplModuleContext
         await Database.MigrateAsync(cancellationToken);
     }
 }
-

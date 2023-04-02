@@ -14,7 +14,7 @@ namespace TplNamespace.Infrastructure
     {
         public static WebApplicationBuilder RegisterDependencies(this WebApplicationBuilder builder)
         {
-            builder.Services.AddDbContext<ITplModuleContext, TplModuleContext>(options =>
+            builder.Services.AddDbContext<IDbContext, TplModuleContext>(options =>
                 options.UseNpgsql(
                     builder.Configuration.GetConnectionString("TplModule"),
                     o => o.MigrationsHistoryTable("__EFMigrationsHistory", TplModuleContext.DbSchema)));
