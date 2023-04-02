@@ -1,14 +1,12 @@
 using FluentValidation;
 using FluentValidation.AspNetCore;
-using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using QueryX;
 using Serilog;
-using TplNamespace.Application.Common.Behaviors;
+using TplNamespace.Application._Common.Behaviors;
 using TplNamespace.Infrastructure.DataAccess.EF;
 
 namespace TplNamespace.Infrastructure
@@ -24,18 +22,21 @@ namespace TplNamespace.Infrastructure
 
             builder.Services
                 .AddFluentValidationAutoValidation()
-                .AddValidatorsFromAssemblyContaining(typeof(ValidationBehavior<,>));
+                .AddValidatorsFromAssemblyContaining(typeof(ValidationPipelineBehavior<,>));
 
-            builder.Services.AddMediatR(typeof(TplModuleContext)/*, typeof(TplModuleCommand)*/);
-            builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+            builder.Services.AddMediatR(cfg =>
+            {
+                cfg.RegisterServicesFromAssemblies(typeof(TplModuleContext).Assembly, typeof(ValidationPipelineBehavior<,>).Assembly);
+                cfg.AddOpenBehavior(typeof(ValidationPipelineBehavior<,>));
+                cfg.AddOpenBehavior(typeof(LoggerPipelineBehavior<,>));
+            });
 
             builder.Services.AddQueryX();
 
-            builder.Logging.ClearProviders();
-            var logger = new LoggerConfiguration()
-                .WriteTo.Console()
-                .CreateLogger();
-            builder.Logging.AddSerilog(logger);
+            builder.Host.UseSerilog((ctx, cfg) =>
+            {
+                cfg.ReadFrom.Configuration(ctx.Configuration);
+            });
 
             builder.Services.AddHostedService<InitData>();
 

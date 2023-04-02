@@ -11,10 +11,10 @@ public class ExceptionHandlerMiddleware
     private readonly RequestDelegate _next;
     private readonly ILogger _logger;
 
-    public ExceptionHandlerMiddleware(RequestDelegate next, ILoggerFactory loggerFactory)
+    public ExceptionHandlerMiddleware(RequestDelegate next, ILogger<ExceptionHandlerMiddleware> logger)
     {
         _next = next;
-        _logger = loggerFactory.CreateLogger("ExceptionHandler");
+        _logger = logger;
     }
 
     public async Task InvokeAsync(HttpContext context)
@@ -43,6 +43,7 @@ public class ExceptionHandlerMiddleware
         {
             case QueryException:
                 errorResult.Code = WebApiException.ParametersFormat;
+                logger.LogInformation(exception, "QueryException: {@essage}. Url: {@url}", exception.Message, context.Request.GetDisplayUrl());
                 break;
             case ValidationException vex:
                 errorResult.Code = WebApiException.ValidationError;
@@ -57,10 +58,10 @@ public class ExceptionHandlerMiddleware
             default:
                 errorResult.Message = "An unexpected error occurred.";
                 errorResult.Status = HttpStatusCode.InternalServerError;
+                logger.LogError(exception, "Exception was thrown: {@essage}. Url: {@url}", errorResult, context.Request.GetDisplayUrl());
                 break;
         }
 
-        logger.LogError(exception, "Exception was thrown: {message}. Url: {url}", exception.Message, context.Request.GetDisplayUrl());
 
         var result = JsonSerializer.Serialize(errorResult);
         context.Response.ContentType = "application/json";
