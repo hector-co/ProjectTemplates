@@ -18,7 +18,7 @@ public class DatabaseManager
             {
                 "__EFMigrationsHistory"
             },
-            SchemasToInclude = new[] { "tplModule" },
+            SchemasToInclude = new[] { "tplDbSchema" },
         }).Result;
 
         respawner.ResetAsync(conn).Wait();

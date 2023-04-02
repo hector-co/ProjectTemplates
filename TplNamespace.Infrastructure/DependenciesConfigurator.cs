@@ -6,7 +6,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using QueryX;
 using Serilog;
-using TplNamespace.Application._Common.Behaviors;
 using TplNamespace.Infrastructure.DataAccess.EF;
 
 namespace TplNamespace.Infrastructure
@@ -15,7 +14,7 @@ namespace TplNamespace.Infrastructure
     {
         public static WebApplicationBuilder RegisterDependencies(this WebApplicationBuilder builder)
         {
-            builder.Services.AddDbContext<TplModuleContext>(options =>
+            builder.Services.AddDbContext<ITplModuleContext, TplModuleContext>(options =>
                 options.UseNpgsql(
                     builder.Configuration.GetConnectionString("TplModule"),
                     o => o.MigrationsHistoryTable("__EFMigrationsHistory", TplModuleContext.DbSchema)));

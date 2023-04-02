@@ -1,6 +1,5 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using TplNamespace.WebApi.ExceptionHandling;
 using TplNamespace.Infrastructure;
 using Serilog;
 
