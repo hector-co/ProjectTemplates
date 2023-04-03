@@ -1,0 +1,12 @@
+{
+  "namespace": "TplNamespace",
+  "name": "TplModule",
+  "settings": {
+    "apiPrefix": "tpl-api-prefix",
+    "databaseSchema": "tplDbSchema"
+  },
+  "model": {
+  },
+  "enums": {
+  }
+}

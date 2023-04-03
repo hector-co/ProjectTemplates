@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+	<Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MediatR" Version="12.0.1" />
+    <PackageReference Include="QueryX" Version="1.0.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\_Shared\Shared.WebApi\Shared.WebApi.csproj" />
+    <ProjectReference Include="..\TplNamespace.Application\TplNamespace.Application.csproj" />
+    <ProjectReference Include="..\TplNamespace.Infrastructure\TplNamespace.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>

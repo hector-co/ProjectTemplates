@@ -1,0 +1,9 @@
+﻿keys:
+  - TplMain
+excludedFiles:
+  - tpl-def.yaml
+excludedFolders:
+  - .git
+  - bin
+  - obj
+  - .vs
