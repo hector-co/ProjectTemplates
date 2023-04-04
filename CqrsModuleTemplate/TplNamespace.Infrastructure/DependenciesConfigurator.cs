@@ -6,7 +6,7 @@ namespace TplNamespace.Infrastructure
     {
         public const string DbSchema = "tplDbSchema";
 
-        public static void ApplyTplModuleContextConfigurations(this ModelBuilder modelBuilder, string dbSchema = DbSchema)
+        public static void ApplyTplModuleConfigurations(this ModelBuilder modelBuilder, string dbSchema = DbSchema)
         {
             // TODO Add module configurations
         }
