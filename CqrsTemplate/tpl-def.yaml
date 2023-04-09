@@ -1,8 +1,8 @@
 ﻿keys:
-  - TplNamespace
-  - TplModule
-  - tpl-api-prefix
-  - tplDbSchema
+  TplNamespace: Project Namespace
+  TplModule: Module name
+  tpl-api-prefix: WebAPI prefix
+  tplDbSchema: Database schema
 excludedFiles:
   - tpl-def.yaml
 excludedFolders:

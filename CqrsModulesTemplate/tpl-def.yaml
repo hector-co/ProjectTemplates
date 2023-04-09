@@ -1,5 +1,5 @@
 ﻿keys:
-  - TplMain
+  TplMain: Main project name
 excludedFiles:
   - tpl-def.yaml
 excludedFolders:
