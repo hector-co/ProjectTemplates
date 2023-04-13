@@ -2,6 +2,7 @@
   TplMain: Main project name
 excludedFiles:
   - tpl-def.yaml
+  - README.md
 excludedFolders:
   - .git
   - bin

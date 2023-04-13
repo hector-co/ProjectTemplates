@@ -5,6 +5,7 @@
   tplDbSchema: Database schema
 excludedFiles:
   - tpl-def.yaml
+  - README.md
 excludedFolders:
   - .git
   - bin
