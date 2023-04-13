@@ -2,6 +2,8 @@
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
+using TplNamespace.Application;
+using TplNamespace.Infrastructure;
 using TplNamespace.Infrastructure.DataAccess.EF;
 
 namespace TplNamespace.WebApi;
@@ -15,13 +17,13 @@ public static class RegisterModule
 
         builder.Services
                 .AddFluentValidationAutoValidation()
-                //.AddValidatorsFromAssemblyContaining(typeof(RegisterTplModuleValidator))
+                .AddValidatorsFromAssemblyContaining(typeof(ApplicationAssemblyReference))
                 ;
 
-        //builder.Services.AddMediatR(cfg =>
-        //{
-        //    cfg.RegisterServicesFromAssemblies(typeof(RegisterTplModuleHandler).Assembly);
-        //});
+        builder.Services.AddMediatR(cfg =>
+        {
+            cfg.RegisterServicesFromAssemblies(typeof(InfrastructureAssemblyReference).Assembly);
+        });
 
         builder.Services.AddHostedService<InitData>();
     }
