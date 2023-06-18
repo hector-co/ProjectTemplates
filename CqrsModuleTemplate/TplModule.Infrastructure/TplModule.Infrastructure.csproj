@@ -4,6 +4,7 @@
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+      <AssemblyName>TplNamespace.Infrastructure</AssemblyName>
   </PropertyGroup>
     
   <ItemGroup>
@@ -22,8 +23,8 @@
     
   <ItemGroup>
     <ProjectReference Include="..\..\_Shared\Shared.Infrastructure\Shared.Infrastructure.csproj" />
-    <ProjectReference Include="..\Application\Application.csproj" />
-    <ProjectReference Include="..\Domain\Domain.csproj" />
+    <ProjectReference Include="..\TplModule.Application\TplModule.Application.csproj" />
+    <ProjectReference Include="..\TplModule.Domain\TplModule.Domain.csproj" />
   </ItemGroup>
 
 </Project>

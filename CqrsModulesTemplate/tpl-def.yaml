@@ -8,3 +8,4 @@ excludedFolders:
   - bin
   - obj
   - .vs
+outputFolder: $TplMain

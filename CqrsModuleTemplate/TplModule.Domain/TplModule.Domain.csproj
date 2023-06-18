@@ -4,11 +4,12 @@
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
 	<Nullable>enable</Nullable>
+      <AssemblyName>TplNamespace.Domain</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
     <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
-      <_Parameter1>Infrastructure</_Parameter1>
+      <_Parameter1>TplModule.Infrastructure</_Parameter1>
     </AssemblyAttribute>
   </ItemGroup>
     

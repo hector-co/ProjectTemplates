@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Shared.Infrastructure.DataAccess.EF;
 
-namespace Modules.Main;
+namespace TplMain.Main;
 
 public class TplMainContext : DbContext, IDbContext
 {

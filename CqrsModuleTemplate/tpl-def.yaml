@@ -13,4 +13,4 @@ excludedFolders:
   - bin
   - obj
   - .vs
-outputFolder: $TplNamespace
+outputFolder: $TplModule

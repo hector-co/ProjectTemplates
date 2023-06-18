@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Modules.Main;
 
 namespace TplMain.Main;
 

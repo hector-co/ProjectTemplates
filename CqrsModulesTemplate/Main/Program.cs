@@ -6,7 +6,6 @@ using QueryX;
 using Microsoft.EntityFrameworkCore;
 using Shared.Infrastructure.DataAccess.EF;
 using TplMain.Main;
-using Modules.Main;
 using Shared.WebApi.ExceptionHandling;
 
 var builder = WebApplication.CreateBuilder(args);
