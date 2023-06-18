@@ -9,7 +9,7 @@
 
   <ItemGroup>
     <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
-      <_Parameter1>TplModule.Infrastructure</_Parameter1>
+      <_Parameter1>TplNamespace.Infrastructure</_Parameter1>
     </AssemblyAttribute>
   </ItemGroup>
     
