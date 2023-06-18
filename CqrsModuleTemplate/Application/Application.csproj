@@ -16,7 +16,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\_Shared\Shared.Domain\Shared.Domain.csproj" />
     <ProjectReference Include="..\..\_Shared\Shared.Application\Shared.Application.csproj" />
-    <ProjectReference Include="..\TplNamespace.Domain\TplNamespace.Domain.csproj" />
+    <ProjectReference Include="..\Domain\Domain.csproj" />
   </ItemGroup>
 
 </Project>

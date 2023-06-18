@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
@@ -14,8 +14,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\_Shared\Shared.WebApi\Shared.WebApi.csproj" />
-    <ProjectReference Include="..\TplNamespace.Application\TplNamespace.Application.csproj" />
-    <ProjectReference Include="..\TplNamespace.Infrastructure\TplNamespace.Infrastructure.csproj" />
+    <ProjectReference Include="..\Application\Application.csproj" />
+    <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

@@ -2,18 +2,18 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TplNamespace.WebApi", "TplNamespace.WebApi\TplNamespace.WebApi.csproj", "{0821188F-CBF5-4C20-8D51-187D09D19DA5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApi", "WebApi\WebApi.csproj", "{0821188F-CBF5-4C20-8D51-187D09D19DA5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TplNamespace.Domain", "TplNamespace.Domain\TplNamespace.Domain.csproj", "{E67913FE-0FE2-4DFD-A14C-6ED5B3749DCB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "Domain\Domain.csproj", "{E67913FE-0FE2-4DFD-A14C-6ED5B3749DCB}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{BC5D637D-E3B8-4EF2-BD0F-0F94C02F42D5}"
 	ProjectSection(SolutionItems) = preProject
 		metadata.json = metadata.json
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TplNamespace.Application", "TplNamespace.Application\TplNamespace.Application.csproj", "{C9569A49-D2C7-49FC-BCE4-2314690B2A09}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "Application\Application.csproj", "{C9569A49-D2C7-49FC-BCE4-2314690B2A09}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TplNamespace.Infrastructure", "TplNamespace.Infrastructure\TplNamespace.Infrastructure.csproj", "{ECB5A7CB-9CAA-40E5-BBE8-7BB6A91C70A5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{ECB5A7CB-9CAA-40E5-BBE8-7BB6A91C70A5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Shared", "_Shared", "{CACC7263-74E3-4221-9849-20A27F3C0467}"
 EndProject

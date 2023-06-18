@@ -3,7 +3,8 @@
   "name": "TplModule",
   "settings": {
     "apiPrefix": "tpl-api-prefix",
-    "databaseSchema": "tplDbSchema"
+    "databaseSchema": "tplDbSchema",
+    "moduleFolder": ""
   },
   "model": {
   },

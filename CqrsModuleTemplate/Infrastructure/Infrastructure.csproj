@@ -22,8 +22,8 @@
     
   <ItemGroup>
     <ProjectReference Include="..\..\_Shared\Shared.Infrastructure\Shared.Infrastructure.csproj" />
-    <ProjectReference Include="..\TplNamespace.Application\TplNamespace.Application.csproj" />
-    <ProjectReference Include="..\TplNamespace.Domain\TplNamespace.Domain.csproj" />
+    <ProjectReference Include="..\Application\Application.csproj" />
+    <ProjectReference Include="..\Domain\Domain.csproj" />
   </ItemGroup>
 
 </Project>
