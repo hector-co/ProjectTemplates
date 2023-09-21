@@ -4,7 +4,8 @@
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-      <AssemblyName>TplNamespace.Infrastructure</AssemblyName>
+    <AssemblyName>TplNamespace.Infrastructure</AssemblyName>
+    <RootNamespace>TplNamespace.Infrastructure</RootNamespace>
   </PropertyGroup>
     
   <ItemGroup>

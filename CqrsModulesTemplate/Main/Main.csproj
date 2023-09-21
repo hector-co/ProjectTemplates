@@ -5,6 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <AssemblyName>TplMain.Main</AssemblyName>
+    <RootNamespace>TplMain.Main</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
