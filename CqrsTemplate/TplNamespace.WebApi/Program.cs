@@ -2,21 +2,24 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using TplNamespace.Infrastructure;
 using Serilog;
+using Microsoft.AspNetCore.Http.Json;
+using Carter;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers()
-    .AddJsonOptions(options =>
-     {
-         options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
-         options.JsonSerializerOptions.DictionaryKeyPolicy = JsonNamingPolicy.CamelCase;
-         options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
-     })
-    .AddControllersAsServices();
+builder.Services.Configure<JsonOptions>(options =>
+{
+    options.SerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+    options.SerializerOptions.DictionaryKeyPolicy = JsonNamingPolicy.CamelCase;
+    options.SerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+    options.SerializerOptions.Converters.Add(new JsonStringEnumConverter());
+});
 
 builder.RegisterDependencies();
+
+builder.Services.AddCarter();
 
 builder.Services.AddCors();
 
@@ -43,9 +46,9 @@ app.UseHttpsRedirection();
 
 app.UseMiddleware<ExceptionHandlerMiddleware>();
 
-app.UseAuthorization();
+//app.UseAuthorization();
 
-app.MapControllers();
+app.MapCarter();
 
 app.Run();
 

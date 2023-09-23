@@ -12,9 +12,6 @@ public static class RegisterModule
 {
     public static void RegisterTplModule(this WebApplicationBuilder builder)
     {
-        var assembly = typeof(RegisterModule).Assembly;
-        builder.Services.AddControllers().AddApplicationPart(assembly);
-
         builder.Services
                 .AddFluentValidationAutoValidation()
                 .AddValidatorsFromAssemblyContaining(typeof(ApplicationAssemblyReference))
@@ -22,6 +19,7 @@ public static class RegisterModule
 
         builder.Services.AddMediatR(cfg =>
         {
+            cfg.RegisterServicesFromAssemblies(typeof(ApplicationAssemblyReference).Assembly);
             cfg.RegisterServicesFromAssemblies(typeof(InfrastructureAssemblyReference).Assembly);
         });
 
