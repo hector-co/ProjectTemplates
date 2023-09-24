@@ -1,25 +1,34 @@
-using System.Text.Json.Serialization;
-using System.Text.Json;
-using Shared.Application.Behaviors;
-using Serilog;
-using QueryX;
-using Microsoft.EntityFrameworkCore;
-using Shared.Infrastructure.DataAccess.EF;
-using TplMain.Main;
-using Shared.WebApi.ExceptionHandling;
 using Carter;
+using MicroElements.Swashbuckle.NodaTime;
 using Microsoft.AspNetCore.Http.Json;
+using Microsoft.EntityFrameworkCore;
+using NodaTime;
+using NodaTime.Serialization.SystemTextJson;
+using QueryX;
+using Serilog;
+using Shared.Application.Behaviors;
+using Shared.Infrastructure.DataAccess.EF;
+using Shared.WebApi.ExceptionHandling;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using TplMain.Main;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+static void ConfigureJsonSerializerOptions(JsonSerializerOptions serializerOptions)
+{
+    serializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+    serializerOptions.DictionaryKeyPolicy = JsonNamingPolicy.CamelCase;
+    serializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+    serializerOptions.Converters.Add(new JsonStringEnumConverter());
+    serializerOptions.ConfigureForNodaTime(DateTimeZoneProviders.Tzdb);
+}
+
 builder.Services.Configure<JsonOptions>(options =>
 {
-    options.SerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
-    options.SerializerOptions.DictionaryKeyPolicy = JsonNamingPolicy.CamelCase;
-    options.SerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
-    options.SerializerOptions.Converters.Add(new JsonStringEnumConverter());
+    ConfigureJsonSerializerOptions(options.SerializerOptions);
 });
 
 builder.Host.UseSerilog((ctx, cfg) =>
@@ -42,7 +51,7 @@ builder.Services.AddCors();
 
 builder.Services.AddDbContext<IDbContext, TplMainContext>(options =>
     options.UseNpgsql(
-        builder.Configuration.GetConnectionString("TplMain")));
+        builder.Configuration.GetConnectionString("TplMain"), o => o.UseNodaTime()));
 
 builder.Services.AddHostedService<InitDb>();
 
@@ -50,7 +59,12 @@ builder.Services.AddHostedService<InitDb>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    var jsonSerializerOptions = new JsonSerializerOptions();
+    ConfigureJsonSerializerOptions(jsonSerializerOptions);
+    c.ConfigureForNodaTimeWithSystemTextJson(jsonSerializerOptions);
+});
 
 var app = builder.Build();
 

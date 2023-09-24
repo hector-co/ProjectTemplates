@@ -9,5 +9,11 @@
   "model": {
   },
   "enums": {
-  }
+  },
+  "customTypes": [
+    {
+      "namespace": "NodaTime",
+      "typeNames": [ "LocalDateTime", "LocalDate", "LocalTime" ]
+    }
+  ]
 }
