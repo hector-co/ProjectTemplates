@@ -22,7 +22,7 @@ static void ConfigureJsonSerializerOptions(JsonSerializerOptions serializerOptio
     serializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
     serializerOptions.DictionaryKeyPolicy = JsonNamingPolicy.CamelCase;
     serializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
-    serializerOptions.Converters.Add(new JsonStringEnumConverter());
+    serializerOptions.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
     serializerOptions.ConfigureForNodaTime(DateTimeZoneProviders.Tzdb);
 }
 
