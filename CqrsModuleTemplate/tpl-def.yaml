@@ -13,4 +13,5 @@ excludedFolders:
   - bin
   - obj
   - .vs
-outputFolder: $TplModule
+  - _Shared
+outputFolder: .
