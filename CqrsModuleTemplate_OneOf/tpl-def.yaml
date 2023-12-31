@@ -1,0 +1,17 @@
+﻿keys:
+  TplNamespace: Project Namespace
+  TplModule: Module name
+  tpl-api-prefix: WebAPI prefix
+  tplDbSchema: Database schema
+excludedFiles:
+  - tpl-def.yaml
+  - README.md
+  - .gitignore
+  - TplNamespaceSln.sln
+excludedFolders:
+  - .git
+  - bin
+  - obj
+  - .vs
+  - _Shared
+outputFolder: .
