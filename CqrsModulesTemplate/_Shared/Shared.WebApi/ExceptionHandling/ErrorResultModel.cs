@@ -4,7 +4,7 @@ namespace Shared.WebApi.ExceptionHandling;
 
 public class ErrorResultModel
 {
-    public ErrorResultModel(string message, HttpStatusCode status, string code, object? payload = null)
+    public ErrorResultModel(string message, HttpStatusCode? status, string code, object? payload = null)
     {
         Message = message;
         Status = status;
@@ -14,7 +14,7 @@ public class ErrorResultModel
 
     public string Message { get; set; }
 
-    public HttpStatusCode Status { get; set; }
+    public HttpStatusCode? Status { get; set; }
 
     public string Code { get; set; }
 

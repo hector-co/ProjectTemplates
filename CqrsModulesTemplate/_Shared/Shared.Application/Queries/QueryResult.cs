@@ -2,9 +2,9 @@ using System.Text.Json.Serialization;
 
 namespace Shared.Application.Queries;
 
-public class Result<TData>
+public record QueryResult<TData>
 {
-    public Result(TData? data, int? totalCount = default)
+    public QueryResult(TData? data, int? totalCount = default)
     {
         Data = data;
         TotalCount = totalCount;
@@ -19,9 +19,9 @@ public class Result<TData>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public int? TotalCount { get; }
 
-    public Result<TData> AddMeta(string key, object value)
+    public QueryResult<TData> AddMeta(string key, object value)
     {
-        Meta ??= new Dictionary<string, object>();
+        Meta ??= [];
 
         Meta.Add(key, value);
 

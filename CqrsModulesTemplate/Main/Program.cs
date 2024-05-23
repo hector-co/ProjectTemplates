@@ -39,6 +39,7 @@ builder.Host.UseSerilog((ctx, cfg) =>
 builder.Services.AddMediatR(cfg =>
 {
     cfg.RegisterServicesFromAssemblies(typeof(Program).Assembly);
+    //cfg.AddOpenBehavior(typeof(RequestSessionInfoBehavior<,>));
     cfg.AddOpenBehavior(typeof(ValidationPipelineBehavior<,>));
     cfg.AddOpenBehavior(typeof(LoggerPipelineBehavior<,>));
 });
@@ -46,8 +47,6 @@ builder.Services.AddMediatR(cfg =>
 builder.Services.AddCarter();
 
 builder.Services.AddQueryX();
-
-builder.Services.AddCors();
 
 builder.Services.AddDbContext<IDbContext, TplMainContext>(options =>
     options.UseNpgsql(
@@ -66,6 +65,8 @@ builder.Services.AddSwaggerGen(c =>
     c.ConfigureForNodaTimeWithSystemTextJson(jsonSerializerOptions);
 });
 
+builder.Services.AddCors();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -78,7 +79,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseSerilogRequestLogging();
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
 app.UseMiddleware<ExceptionHandlerMiddleware>();
 
