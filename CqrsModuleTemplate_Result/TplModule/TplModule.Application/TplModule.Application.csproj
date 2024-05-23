@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AssemblyName>TplNamespace.Application</AssemblyName>
+    <RootNamespace>TplNamespace.Application</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\_Shared\Shared.Domain\Shared.Domain.csproj" />
+    <ProjectReference Include="..\..\_Shared\Shared.Application\Shared.Application.csproj" />
+    <ProjectReference Include="..\TplModule.Domain\TplModule.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

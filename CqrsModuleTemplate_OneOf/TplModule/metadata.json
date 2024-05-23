@@ -1,0 +1,19 @@
+{
+  "namespace": "TplNamespace",
+  "name": "TplModule",
+  "settings": {
+    "apiPrefix": "tpl-api-prefix",
+    "databaseSchema": "tplDbSchema",
+    "moduleFolder": "TplModule"
+  },
+  "model": {
+  },
+  "enums": {
+  },
+  "customTypes": [
+    {
+      "namespace": "NodaTime",
+      "typeNames": [ "LocalDateTime", "LocalDate", "LocalTime" ]
+    }
+  ]
+}
