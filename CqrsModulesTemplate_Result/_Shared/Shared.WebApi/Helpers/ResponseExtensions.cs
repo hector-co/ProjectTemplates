@@ -1,40 +1,111 @@
 using LanguageExt.Common;
+using QueryX.Exceptions;
 using Shared.Domain;
 using Shared.WebApi.ExceptionHandling;
 using System.Net;
+using System.Text.Json.Serialization;
+using System.Text.Json;
+using FluentValidation;
+using Microsoft.AspNetCore.Http;
 
 namespace Shared.WebApi.Helpers;
 
 public static class ResponseExtensions
 {
-    public static void Verify<TValue>(this Result<TValue> result, HttpStatusCode statusCode = HttpStatusCode.UnprocessableEntity)
+    private static JsonSerializerOptions jsonSerializerOptions = new JsonSerializerOptions
     {
-        _ = result.IfFail(
-            error =>
-            {
-                ProcessError(error, statusCode);
-            });
+        PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+        DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
+    };
+
+    public static IResult ToIResult<TValue>(this Result<TValue> result, HttpStatusCode errorStatusCode = HttpStatusCode.BadRequest)
+    {
+        return result.ToIResult(_ => TypedResults.NoContent(), errorStatusCode);
     }
 
-    public static TResponse IfSuccess<TValue, TResponse>(this Result<TValue> result, Func<TValue, TResponse> success, HttpStatusCode statusCode = HttpStatusCode.UnprocessableEntity)
+    public static IResult ToIResult<TValue>(this Result<TValue> result, Func<TValue, IResult> success, HttpStatusCode errorStatusCode = HttpStatusCode.BadRequest)
     {
         return result.Match(
-            Succ: value => success(value),
-            Fail: error =>
+            value => success(value),
+            exception =>
             {
-                ProcessError(error, statusCode);
-                return default;
+                var errorModel = GetErrorModel(exception, errorStatusCode);
+
+                var result = JsonSerializer.Serialize(errorModel, jsonSerializerOptions);
+                return TypedResults.Content(result, "application/json", statusCode: (int)errorStatusCode);
             });
     }
 
-    private static void ProcessError(Exception error, HttpStatusCode statusCode)
+    public static async Task<IResult> ToIResult<TValue>(this Result<TValue> result, Func<TValue, Task<IResult>> success, HttpStatusCode errorStatusCode = HttpStatusCode.UnprocessableEntity)
     {
-        var code = WebApiException.DomainException;
-        if (error is DomainException dEx && dEx.Code.EndsWith(".NotFound"))
+        return await result.Match<Task<IResult>>(
+            async value => await success(value),
+            exception =>
+            {
+                var errorModel = GetErrorModel(exception, errorStatusCode);
+
+                var result = JsonSerializer.Serialize(errorModel, jsonSerializerOptions);
+                return Task.FromResult<IResult>(TypedResults.Content(result, "application/json", statusCode: (int)(errorModel.Status ?? 0)));
+            });
+    }
+
+    private static ErrorResultModel GetErrorModel(Exception exception, HttpStatusCode errorStatusCode)
+    {
+        var errorModel = ExToErrorModel(exception, errorStatusCode);
+
+        var innerErrors = new List<ErrorResultModel>();
+        var currEx = exception.InnerException;
+        while (currEx != null)
         {
-            statusCode = HttpStatusCode.NotFound;
-            code = WebApiException.DataAccessError;
+            innerErrors.Add(ExToErrorModel(currEx, default));
+            currEx = currEx.InnerException;
         }
-        throw new WebApiException("Error while executing the request.", statusCode, code, error, error.InnerException);
+
+        errorModel.Payload = innerErrors.Count > 0 ? innerErrors : null;
+
+        return errorModel;
+    }
+
+    private static ErrorResultModel ExToErrorModel(Exception exception, HttpStatusCode? errorStatusCode)
+    {
+        var errorResult = new ErrorResultModel("Error while processing request.", errorStatusCode,
+             WebApiException.InternalError);
+
+        switch (exception)
+        {
+            case DomainException dex:
+                errorResult.Code = dex.Code;
+                errorResult.Message = dex.Message;
+                if (dex.Code.EndsWith(".NotFound"))
+                {
+                    if (errorStatusCode != default)
+                        errorResult.Status = HttpStatusCode.NotFound;
+                }
+                else
+                {
+                    if (errorStatusCode != default)
+                        errorResult.Status = HttpStatusCode.UnprocessableEntity;
+                }
+                break;
+            case QueryException:
+                errorResult.Code = WebApiException.ParametersFormat;
+                break;
+            case ValidationException vex:
+                errorResult.Code = WebApiException.ValidationError;
+                errorResult.Payload = vex.Errors;
+                break;
+            case WebApiException apiEx:
+                errorResult.Message = exception.Message;
+                errorResult.Status = apiEx.Status;
+                errorResult.Code = apiEx.Code;
+                errorResult.Payload = apiEx.Payload;
+                break;
+            default:
+                errorResult.Message = "An unexpected error occurred.";
+                errorResult.Status = HttpStatusCode.InternalServerError;
+                break;
+        }
+
+        return errorResult;
     }
 }

@@ -2,7 +2,7 @@ using System.Text.Json.Serialization;
 
 namespace Shared.Application.Queries;
 
-public class QueryResult<TData>
+public record QueryResult<TData>
 {
     public QueryResult(TData? data, int? totalCount = default)
     {

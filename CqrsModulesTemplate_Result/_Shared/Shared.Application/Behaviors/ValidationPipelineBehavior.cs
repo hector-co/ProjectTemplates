@@ -1,11 +1,12 @@
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.Logging;
+using Shared.Application.Commands;
 
 namespace Shared.Application.Behaviors;
 
 public class ValidationPipelineBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
-    where TRequest : IRequest<TResponse>
+    where TRequest : ICommand<TResponse>
 {
     private readonly IEnumerable<IValidator<TRequest>> _validators;
     private readonly ILogger _logger;
@@ -25,7 +26,7 @@ public class ValidationPipelineBehavior<TRequest, TResponse> : IPipelineBehavior
                 await Task.WhenAll(_validators.Select(v => v.ValidateAsync(context, cancellationToken)));
             var failures = validationResults.SelectMany(r => r.Errors).Where(f => f != null).ToList();
 
-            if (failures.Any())
+            if (failures.Count != 0)
             {
                 _logger.LogInformation("Request validation failed {@RequestName}, {@Errors}, {@DateTimeUtc}",
                     typeof(TRequest).Name,
