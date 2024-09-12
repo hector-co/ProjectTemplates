@@ -2,18 +2,11 @@
 
 namespace TplMain.Main;
 
-public class InitDb : IHostedService
+public class InitDb(IServiceProvider serviceProvider) : IHostedService
 {
-    private readonly IServiceProvider _serviceProvider;
-
-    public InitDb(IServiceProvider serviceProvider)
-    {
-        _serviceProvider = serviceProvider;
-    }
-
     public async Task StartAsync(CancellationToken cancellationToken)
     {
-        using var scope = _serviceProvider.CreateScope();
+        using var scope = serviceProvider.CreateScope();
         var context = scope.ServiceProvider.GetRequiredService<TplMainContext>();
         var env = scope.ServiceProvider.GetRequiredService<IHostEnvironment>();
 

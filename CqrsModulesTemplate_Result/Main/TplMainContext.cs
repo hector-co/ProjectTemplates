@@ -3,12 +3,8 @@ using Shared.Infrastructure.DataAccess.EF;
 
 namespace TplMain.Main;
 
-public class TplMainContext : DbContext, IDbContext
+public class TplMainContext(DbContextOptions<TplMainContext> options) : DbContext(options), IDbContext
 {
-    public TplMainContext(DbContextOptions<TplMainContext> options) : base(options)
-    {
-    }
-
     public async Task MigrateAsync(CancellationToken cancellationToken = default)
     {
         await Database.MigrateAsync(cancellationToken);
