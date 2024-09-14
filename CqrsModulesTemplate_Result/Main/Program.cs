@@ -64,6 +64,7 @@ builder.Services.AddSwaggerGen(c =>
     var jsonSerializerOptions = new JsonSerializerOptions();
     ConfigureJsonSerializerOptions(jsonSerializerOptions);
     c.ConfigureForNodaTimeWithSystemTextJson(jsonSerializerOptions);
+    c.OperationFilter<SwaggerParameterIgnoreFilter>();
     c.SchemaFilter<SwaggerIgnoreFilter>();
 });
 
