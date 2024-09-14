@@ -9,22 +9,15 @@ using QueryX.Exceptions;
 
 namespace Shared.WebApi.ExceptionHandling;
 
-public class ExceptionHandlerMiddleware
+public class ExceptionHandlerMiddleware(RequestDelegate next, ILoggerFactory loggerFactory)
 {
-    private readonly RequestDelegate _next;
-    private readonly ILogger _logger;
-
-    public ExceptionHandlerMiddleware(RequestDelegate next, ILoggerFactory loggerFactory)
-    {
-        _next = next;
-        _logger = loggerFactory.CreateLogger("ExceptionHandler");
-    }
+    private readonly ILogger _logger = loggerFactory.CreateLogger("ExceptionHandler");
 
     public async Task InvokeAsync(HttpContext context)
     {
         try
         {
-            await _next(context);
+            await next(context);
         }
         catch (Exception ex)
         {
@@ -71,7 +64,7 @@ public class ExceptionHandlerMiddleware
             DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
         });
         context.Response.ContentType = "application/json";
-        context.Response.StatusCode = (int)errorResult.Status;
+        context.Response.StatusCode = (int)(errorResult?.Status ?? HttpStatusCode.BadRequest);
         return context.Response.WriteAsync(result);
     }
 }

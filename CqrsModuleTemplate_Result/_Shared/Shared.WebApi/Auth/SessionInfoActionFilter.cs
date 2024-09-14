@@ -2,19 +2,12 @@
 
 namespace Shared.WebApi.Auth;
 
-public class SessionInfoActionFilter : IAsyncActionFilter
+public class SessionInfoActionFilter(SessionInfo sessionInfo) : IAsyncActionFilter
 {
-    private readonly SessionInfo _sessionInfo;
-
-    public SessionInfoActionFilter(SessionInfo sessionInfo)
-    {
-        _sessionInfo = sessionInfo;
-    }
-
     public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
     {
         if (context.HttpContext.User.Identity?.IsAuthenticated ?? false)
-            await _sessionInfo.SetData(context.HttpContext);
+            await sessionInfo.SetData(context.HttpContext);
 
         await next();
     }

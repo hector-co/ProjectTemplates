@@ -12,6 +12,7 @@ using Shared.WebApi.ExceptionHandling;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using TplMain.Main;
+using Shared.WebApi.Helpers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -63,6 +64,7 @@ builder.Services.AddSwaggerGen(c =>
     var jsonSerializerOptions = new JsonSerializerOptions();
     ConfigureJsonSerializerOptions(jsonSerializerOptions);
     c.ConfigureForNodaTimeWithSystemTextJson(jsonSerializerOptions);
+    c.SchemaFilter<SwaggerIgnoreFilter>();
 });
 
 builder.Services.AddCors();
