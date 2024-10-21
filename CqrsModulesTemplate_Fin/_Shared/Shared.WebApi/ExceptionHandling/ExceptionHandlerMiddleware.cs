@@ -6,11 +6,18 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.Extensions.Logging;
 using QueryX.Exceptions;
+using Shared.Domain;
 
 namespace Shared.WebApi.ExceptionHandling;
 
 public class ExceptionHandlerMiddleware(RequestDelegate next, ILoggerFactory loggerFactory)
 {
+    private static readonly JsonSerializerOptions Options = new()
+    {
+        PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+        DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
+    };
+
     private readonly ILogger _logger = loggerFactory.CreateLogger("ExceptionHandler");
 
     public async Task InvokeAsync(HttpContext context)
@@ -37,6 +44,22 @@ public class ExceptionHandlerMiddleware(RequestDelegate next, ILoggerFactory log
 
         switch (exception)
         {
+            case DomainException dex:
+                errorResult.Code = dex.Code;
+                errorResult.Message = dex.Message;
+                if (dex.Code.EndsWith(".NotFound"))
+                {
+                    errorResult.Status = HttpStatusCode.NotFound;
+                }
+                if (dex.Code.EndsWith(".Unauthorized"))
+                {
+                    errorResult.Status = HttpStatusCode.Unauthorized;
+                }
+                else
+                {
+                    errorResult.Status = HttpStatusCode.UnprocessableEntity;
+                }
+                break;
             case QueryException:
                 errorResult.Code = WebApiException.ParametersFormat;
                 break;
@@ -50,21 +73,22 @@ public class ExceptionHandlerMiddleware(RequestDelegate next, ILoggerFactory log
                 errorResult.Code = apiEx.Code;
                 errorResult.Payload = apiEx.Payload;
                 break;
+            case BadHttpRequestException:
+                errorResult.Message = "Error al procesar la solicitud.";
+                errorResult.Status = HttpStatusCode.BadRequest;
+                errorResult.Code = WebApiException.ParametersFormat;
+                break;
             default:
-                errorResult.Message = "An unexpected error occurred.";
+                errorResult.Message = "Ocurrió un error inesperado.";
                 errorResult.Status = HttpStatusCode.InternalServerError;
                 break;
         }
 
-        logger.LogError(exception, "Exception was thrown: {message}. Url: {url}", exception.Message, context.Request.GetDisplayUrl());
+        logger.LogError(exception, "Exception was thrown. Url: {url}", context.Request.GetDisplayUrl());
 
-        var result = JsonSerializer.Serialize(errorResult, new JsonSerializerOptions
-        {
-            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
-        });
+        var result = JsonSerializer.Serialize(errorResult, Options);
         context.Response.ContentType = "application/json";
-        context.Response.StatusCode = (int)(errorResult?.Status ?? HttpStatusCode.BadRequest);
+        context.Response.StatusCode = (int)(errorResult?.Status ?? HttpStatusCode.InternalServerError);
         return context.Response.WriteAsync(result);
     }
 }
